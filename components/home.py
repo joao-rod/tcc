@@ -20,7 +20,7 @@ class HomeComponent(BaseComponent):
 
         df_filter = df_melted[df_melted["curso"] == selected_curso]
 
-        figure = px.histogram(
+        figure = px.bar(
             df_filter,
             x="atividade",
             y="participacao",
