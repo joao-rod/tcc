@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 class SidebarComponent:
     def __init__(self, title="Filtros", options=None) -> None:
         self.title = title

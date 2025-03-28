@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 from components.sidebar import SidebarComponent
 from components.base import BaseComponent
 
@@ -20,8 +22,10 @@ class HomeComponent(BaseComponent):
 
         df_filter = df_melted[df_melted["curso"] == selected_curso]
 
+        data = self.order(data=df_filter, x="atividade", y="participacao")
+
         figure = px.bar(
-            df_filter,
+            data,
             x="atividade",
             y="participacao",
             title=f"Atividades culturais - {selected_curso}",
@@ -32,6 +36,36 @@ class HomeComponent(BaseComponent):
         )
 
         return self.plot(figure)
+
+    def heatmap(self):
+        heatmap_data = pd.crosstab(
+            self.df["curso"],
+            self.df["serie"],
+        )
+
+        fig = px.imshow(
+            heatmap_data,
+            labels=dict(x="Série", y="Curso", color="Distribuição"),
+            x=heatmap_data.columns,
+            y=heatmap_data.index,
+            color_continuous_scale="Purples",
+            title="Correlação entre Cursos e Serie",
+        )
+
+        return self.plot(fig)
+
+    def wordcloud(self):
+        text = " ".join(self.df["melhoria_alimentacao"])
+
+        wordcloud = WordCloud(
+            width=800, height=400, background_color="white", max_font_size=32, collocations=False
+        ).generate(text)
+
+        fig, ax = plt.subplots(figsize=(4, 4))
+        ax.imshow(wordcloud, interpolation="bilinear")
+        ax.axis("off")
+
+        st.pyplot(fig)
 
     # Apenas para teste da navegação do menu na sidebar
     def line(self):

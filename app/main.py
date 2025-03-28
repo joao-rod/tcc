@@ -3,7 +3,7 @@ import pandas as pd
 from components.sidebar import SidebarComponent
 from components.home import HomeComponent
 
-df = pd.read_csv("data.csv")
+df = pd.read_csv('../data/data.csv')
 
 st.set_page_config(
     page_title="Dashboard - Censo Cultural",
@@ -17,6 +17,10 @@ navigator = sidebar.navigation()
 if navigator == "🏠️ Home":
     component = HomeComponent(df)
     component.histogram()
+    component.divider()
+    component.wordcloud()
+    component.divider()
+    component.heatmap()
 
 elif navigator == "📄 Pag2":
     component = HomeComponent(df)
