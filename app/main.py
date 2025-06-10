@@ -18,7 +18,7 @@ if navigator == "🏠️ Home":
     component = HomeComponent(df)
     component.histogram()
     component.divider()
-    component.wordcloud()
+    component.histogram2()
     component.divider()
     component.heatmap()
 

@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
 from components.sidebar import SidebarComponent
 from components.base import BaseComponent
 
@@ -11,6 +9,7 @@ class HomeComponent(BaseComponent):
     def __init__(self, df: pd.DataFrame) -> None:
         super().__init__(df)
         self.select_curses = SidebarComponent(options=df["curso"].unique())
+        self.selected_curso = self.select_curses.selectboxes()
 
         st.title("Página Inicial")
         st.write("Bem-vindo à página inicial!")
@@ -18,9 +17,7 @@ class HomeComponent(BaseComponent):
     def histogram(self):
         df_melted = self.handle_melt("atv_cultural_", "atividade", "participacao")
 
-        selected_curso = self.select_curses.selectboxes()
-
-        df_filter = df_melted[df_melted["curso"] == selected_curso]
+        df_filter = df_melted[df_melted["curso"] == self.selected_curso]
 
         data = self.order(data=df_filter, x="atividade", y="participacao")
 
@@ -28,9 +25,31 @@ class HomeComponent(BaseComponent):
             data,
             x="atividade",
             y="participacao",
-            title=f"Atividades culturais - {selected_curso}",
+            title=f"Atividades culturais - {self.selected_curso}",
             labels={
                 "atividade": "Atividades Culturais",
+                "participacao": "Participação",
+            },
+        )
+
+        return self.plot(figure)
+
+    def histogram2(self):
+        df_melted = self.handle_melt(
+            "melhoria_alimentacao_", "alimentacao", "participacao"
+        )
+
+        df_filter = df_melted[df_melted["curso"] == self.selected_curso]
+
+        data = self.order(data=df_filter, x="alimentacao", y="participacao")
+
+        figure = px.bar(
+            data,
+            x="alimentacao",
+            y="participacao",
+            title=f"Atividades culturais - {self.selected_curso}",
+            labels={
+                "alimentacao": "Atividades Culturais",
                 "participacao": "Participação",
             },
         )
@@ -54,32 +73,30 @@ class HomeComponent(BaseComponent):
 
         return self.plot(fig)
 
-    def wordcloud(self):
-        text = " ".join(self.df["melhoria_alimentacao"])
+    # def wordcloud(self):
+    #     text = " ".join(self.df["melhoria_alimentacao"])
 
-        wordcloud = WordCloud(
-            width=800, height=400, background_color="white", max_font_size=32, collocations=False
-        ).generate(text)
+    #     wordcloud = WordCloud(
+    #         width=800, height=400, background_color="white", max_font_size=32, collocations=False
+    #     ).generate(text)
 
-        fig, ax = plt.subplots(figsize=(4, 4))
-        ax.imshow(wordcloud, interpolation="bilinear")
-        ax.axis("off")
+    #     fig, ax = plt.subplots(figsize=(4, 4))
+    #     ax.imshow(wordcloud, interpolation="bilinear")
+    #     ax.axis("off")
 
-        st.pyplot(fig)
+    #     st.pyplot(fig)
 
     # Apenas para teste da navegação do menu na sidebar
     def line(self):
         df_melted = self.handle_melt("hab_musical_", "habilidade", "participacao")
 
-        selected_curso = self.select_curses.selectboxes()
-
-        df_filter = df_melted[df_melted["curso"] == selected_curso]
+        df_filter = df_melted[df_melted["curso"] == self.selected_curso]
 
         figure = px.line(
             df_filter,
             x="habilidade",
             y="participacao",
-            title=f"Habilidades musicaal - {selected_curso}",
+            title=f"Habilidades musicaal - {self.selected_curso}",
             labels={
                 "habilidade": "Habilidades musicais",
                 "participacao": "Participação",
