@@ -24,12 +24,12 @@ Este trabalho tem como objetivo explorar como ferramentas computacionais podem s
 - Contribuir com informações que possam auxiliar a gestão escolar na elaboração de ações mais inclusivas e personalizadas.
 
 ## 🧠 Metodologia
-Este trabalho segue os princípios da metodologia CRISP-DM (Cross Industry Standard Process for Data Mining),
+Este trabalho segue os princípios da metodologia CRISP-EDM (Cross Industry Standard Process for Educational Data Mining),
 que orienta o desenvolvimento de projetos de análise de dados em etapas bem definidas. As fases incluem:
 
-1. Compreensão do problema: Entendimento do contexto escolar e dos dados culturais a serem analisados.
+1. Entendimento do domínio em Educação: Entendimento do contexto escolar e dos dados culturais a serem analisados.
 
-2. Compreensão dos dados: Exploração inicial dos dados coletados para identificar padrões e preparar a análise.
+2. Entendimento dos Dados Educacionais: Exploração inicial dos dados coletados para identificar padrões e preparar a análise.
 
 3. Preparação dos dados: Limpeza, transformação e estruturação dos dados para facilitar a modelagem.
 
